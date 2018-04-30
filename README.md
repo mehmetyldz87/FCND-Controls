@@ -18,6 +18,8 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  The block diagram of this contoller is here
  
  ![Photo_2](./image/Photo_2.png)
+ 
+ Each of the methods in 'controller.py' is here
 
 * **1- Body Rate Control ( body_rate_control() )**
 ```py
