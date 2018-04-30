@@ -17,34 +17,31 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  
  The block diagram of this contoller is here
  
- 
+ ![Photo_2](./image/Photo_2.png)
 
-* **1- Read Global Home , Global Position and Local Position**
-```
+* **1- Body Rate Control ( body_rate_control() )**
+```py
 print('global home {0}, position {1}, local position {2}'.format(self.global_home, self.global_position,
                                                                          self.local_position))
 ```
-* **2- Read "Collider.csv" file and obtaining obstacle in the map**
-```
+* **2- Reduced Attitude Control ( roll_pitch_control() )**
+```py
 data = np.loadtxt('colliders.csv', delimiter=',', dtype='Float64', skiprows=2)
 ```    
-* **3- Creat Grid with a particular altitude and safety margin around obstacles via Planning_utils.py** 
-```
+* **3- Altitude Control ( altitude_control() )** 
+```py
 grid, north_offset, east_offset = create_grid(data, TARGET_ALTITUDE, SAFETY_DISTANCE)
 
 ```  
-      * a-Find North_min , North_max , East_min and East_max
-      * b-Find Nort and East Size 
-      * c-Creat a zero grid array by using Nort and East Size  
-      * d-Find obstacles and insert into the grid array
-      * e-Return Grid , north_offset , east_offset
+* **4- Heading Control ( yaw_control() )**
+```py    
+ grid_start = (-north_offset, -east_offset)
+       
+ grid_goal = (-north_offset + 10, -east_offset + 10)
+```
 
-Configuration Space 
-
-![Config_Space](./image/Config_Space.png)
-
-* **4- Define Start and Goal Point**
-```    
+* **5- Lateral Position Control ( lateral_position_control() )**
+```py    
  grid_start = (-north_offset, -east_offset)
        
  grid_goal = (-north_offset + 10, -east_offset + 10)
