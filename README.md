@@ -4,7 +4,7 @@
 
 ## Ptyhon Part
 
-![Photo_1](./image/Photo_1.png)
+![Photo_1](./image/Photo_1.png) [1]
 ---
 
 In this part, the nested low-level controller needed to achieve trajectory following is explained. The controller is separated into five parts:
@@ -15,13 +15,24 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  - heading control
  - lateral position control
  
- The block diagram of this contoller is here
+ The basic block diagram of quadrotor contoller is here
  
- ![Photo_2](./image/Photo_2.png)
+ ![Photo_2](./image/Photo_2.png) [2]
  
- Each of the methods in 'controller.py' is here
+ The detailed block diagram of quadrotor controller is here. The theory behind the controller design is given in [this paper](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) [3]
+ 
+ ![Photo_3](./image/Photo_3.png)
+ 
+ Each of the methods in 'controller.py' is given below
+ 
+ Reduced Attitude Control Diagram
+ 
+  ![Photo_4](./image/Photo_4.png)
 
 * **1- Body Rate Control ( body_rate_control() )**
+
+The commanded roll, pitch, and yaw are collected by the body rate controller, and they are translated into the desired moment along the axis in the body frame. This control method use only P controller.
+
 ```py
     def body_rate_control(self, body_rate_cmd, body_rate):
         """ Generate the roll, pitch, yaw moment commands in the body frame
@@ -47,6 +58,8 @@ In this part, the nested low-level controller needed to achieve trajectory follo
 
 ```
 * **2- Reduced Attitude Control ( roll_pitch_control() )**
+
+
 ```py
     def roll_pitch_controller(self, acceleration_cmd, attitude, thrust_cmd):
         """ Generate the rollrate and pitchrate commands in the body frame
@@ -186,3 +199,8 @@ In this part, the nested low-level controller needed to achieve trajectory follo
 
         return acc_cmd
 ```
+**References**
+1- https://github.com/udacity/FCND-Controls
+2- Lesson 4 - 3D Drone-Full-Notebook ( 3D Controller Part ) 
+3- A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
+   Quadrocopter Motions", American Control Confrence, Fairmont Queen Elizabeth, Montreal, Canada, 27-29 June 2012 
