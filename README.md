@@ -4,7 +4,7 @@
 
 ## Ptyhon Part
 
-![Photo_1](./image/Photo_1.png) [1]
+![Photo_1](./image/Photo_1.png) 
 ---
 
 In this part, the nested low-level controller needed to achieve trajectory following is explained. The controller is separated into five parts:
@@ -17,17 +17,17 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  
  The basic block diagram of quadrotor contoller is here
  
- ![Photo_2](./image/Photo_2.png) [2]
+ ![Photo_2](./image/Photo_2.png) [1]
  
- The detailed block diagram of quadrotor controller is here. The theory behind the controller design is given in [this paper](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) [3]
+ The detailed block diagram of quadrotor controller is here. The theory behind the controller design is given in [this paper](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) [2]
  
- ![Photo_3](./image/Photo_3.png)
+ ![Photo_3](./image/Photo_3.png) [3]
  
  Each of the methods in 'controller.py' is given below
  
  Reduced Attitude Control Diagram
  
-  ![Photo_4](./image/Photo_4.png)
+  ![Photo_4](./image/Photo_4.png) [3]
 
 * **1- Body Rate Control ( body_rate_control() )**
 
@@ -200,7 +200,7 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
         return acc_cmd
 ```
 **References**
-1- https://github.com/udacity/FCND-Controls
-2- Lesson 4 - 3D Drone-Full-Notebook ( 3D Controller Part ) 
-3- A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
+* 1- https://github.com/udacity/FCND-Controls
+* 2- A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
    Quadrocopter Motions", American Control Confrence, Fairmont Queen Elizabeth, Montreal, Canada, 27-29 June 2012 
+* 3- FCND Lesson 4 - 3D Drone-Full-Notebook ( 3D Controller Part ) 
