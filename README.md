@@ -263,6 +263,13 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 ![Photo_8](./image/Photo_8.png)
 
+
+Horizontal Error
+![Photo_10](./image/Photo_10.png)
+
+Vertical Error
+![Photo_11](./image/Photo_11.png)
+
 **Video**
 [![Video](./image/Photo_9.png)](https://www.youtube.com/watch?v=FtIspS_226Y&feature=youtu.be)
 
