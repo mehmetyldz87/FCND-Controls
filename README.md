@@ -23,7 +23,7 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  
  ![Photo_3](./image/Photo_3.png) [3]
  
- Each of the methods in 'controller.py' is given below
+ Each of the methods in `controller.py` is given below
  
  Reduced Attitude Control Diagram
  
