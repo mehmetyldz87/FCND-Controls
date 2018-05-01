@@ -19,7 +19,7 @@ In this part, the nested low-level controller needed to achieve trajectory follo
  
  ![Photo_2](./image/Photo_2.png) [1]
  
- The detailed block diagram of quadrotor controller is here. The theory behind the controller design is given in [this paper](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) [2]
+The detailed block diagram of quadrotor controller is here. The theory behind the controller design is given in [this paper](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) [2]
  
  ![Photo_3](./image/Photo_3.png) [3]
  
@@ -63,7 +63,8 @@ The roll-pitch controller is a P controller responsible for commanding the roll 
 
   ![Photo_5](./image/Photo_5.png) [3]
  
-The rotation matrix elements  R13  (also referred to as  b_x ) and  R23  (also referred to as  b_y ).
+The rotation matrix elements  R13  (also referred to as  b_x ) and  R23  (also referred to as  b_y ). Lateral acceleration commend comes from lateral controller. By using it, b_x_target & b_y_target are obtained. 
+
   ![Photo_7](./image/Photo_7.png) [3]
   
 ```py
