@@ -226,7 +226,7 @@ The drone generates lateral acceleration by changing the body orientation which 
 ![Photo_8](./image/Photo_8.png)
 
 
-[![**Video**](https://i.ytimg.com/vi/FtIspS_226Y/2.jpg?time=1525159093443)](https://www.youtube.com/watch?v=FtIspS_226Y&feature=youtu.be)
+[![Video]()](https://www.youtube.com/watch?v=FtIspS_226Y&feature=youtu.be)
 
 
 ## CPP Part ##
