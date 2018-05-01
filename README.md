@@ -223,6 +223,8 @@ The drone generates lateral acceleration by changing the body orientation which 
 * Maximum Vertical Error < 1 m
 * Mission Time < 20 s
 
+The telemetry log of a successful trajectory following flight [TLog](./TLog.txt)
+
 ![Photo_8](./image/Photo_8.png)
 
 **Video**
