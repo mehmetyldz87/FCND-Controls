@@ -223,10 +223,10 @@ The drone generates lateral acceleration by changing the body orientation which 
 * Maximum Vertical Error < 1 m
 * Mission Time < 20 s
 
-![Photo_8](./image/Photo_8.png) [3]
+![Photo_8](./image/Photo_8.png)
 
-Video
-[![Video](https://img.youtube.com/vi/8QoKp-xedlo/0.jpg)](https://www.youtube.com/watch?v=8QoKp-xedlo&feature=youtu.be)
+
+[![**Video**](https://i.ytimg.com/vi/FtIspS_226Y/2.jpg?time=1525159093443)](https://www.youtube.com/watch?v=FtIspS_226Y&feature=youtu.be)
 
 
 ## CPP Part ##
@@ -237,7 +237,7 @@ Video
 
 
 **References**
-* 1- https://github.com/udacity/FCND-Controls
-* 2- A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
+* [1] https://github.com/udacity/FCND-Controls
+* [2] A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
    Quadrocopter Motions", American Control Confrence, Fairmont Queen Elizabeth, Montreal, Canada, 27-29 June 2012 
-* 3- FCND Lesson 4 - 3D Drone-Full-Notebook ( [3D Controller Part](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/2263120a-a3c4-4b5a-9a96-ac3e1dbae179/concepts/47b0380b-3d5a-426b-8409-45f947c8f343#) ) 
+* [3] FCND Lesson 4 - 3D Drone-Full-Notebook ( [3D Controller Part](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/2263120a-a3c4-4b5a-9a96-ac3e1dbae179/concepts/47b0380b-3d5a-426b-8409-45f947c8f343#) ) 
