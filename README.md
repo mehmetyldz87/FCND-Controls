@@ -228,7 +228,8 @@ Controller parameters is tuned from lowest level to highest level.Observing the 
 
 For each controller gain is found by trail and error methods . Also parameter tuning practices is used from Lesson 12 - Section 17 [5] 
 
-``  
+
+```  
    PD Math and Reparametrization 
        
        err_dot_dot + Kd * err_dot + Kp * err = 0
@@ -239,7 +240,7 @@ For each controller gain is found by trail and error methods . Also parameter tu
        
 ```
 
-``  
+``` 
    Parameter Tuning Best Practices   
        
       * 1 - 0.7 < damping_ratioa < 1.0
