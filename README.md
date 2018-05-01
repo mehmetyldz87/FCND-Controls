@@ -217,6 +217,18 @@ The drone generates lateral acceleration by changing the body orientation which 
 
         return acc_cmd
 ```
+**Parameter Tuning**
+
+Controller parameters is tuned from lowest level to highest level.Observing the affect of each controller saperatly, `test_trajectory.txt` is changed to controller attempt to hold at a fixed point just about the origin for each . Beacuse it is hard to see the effects of controllers with `test_trajectory.txt` in tunining process. 
+
+```py    
+        self.local_position_target = np.array([0.0, 0.0, -3.0]) # Test Purpose
+```
+"Tuning a faster and smoother inner loop will make tuning the outer loop easier due to less decoupling of the modes." [4]
+
+From Lesson 12 - Section 17 [5]
+
+
 **Evaluation**
 
 * Maximum Horizantol Error < 2 m
@@ -243,3 +255,5 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 * [2] A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
    Quadrocopter Motions", American Control Confrence, Fairmont Queen Elizabeth, Montreal, Canada, 27-29 June 2012 
 * [3] FCND Lesson 4 - 3D Drone-Full-Notebook ( [3D Controller Part](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/2263120a-a3c4-4b5a-9a96-ac3e1dbae179/concepts/47b0380b-3d5a-426b-8409-45f947c8f343#) ) 
+* [4] [Python Tips & Tricks] (https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/81acb1ca-af00-4553-b8bb-b1467fbcfc51/concepts/74671657-bda5-4aff-a635-1fde48b15b33)
+* [5] [FCND Lesson 12 - Section 17](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/dd98d695-14f1-40e0-adc5-e9fafe556f73/concepts/541ec6ae-f171-4195-9c05-97a5c82a85df)
