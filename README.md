@@ -226,8 +226,31 @@ Controller parameters is tuned from lowest level to highest level.Observing the 
 ```
 "Tuning a faster and smoother inner loop will make tuning the outer loop easier due to less decoupling of the modes." [4]
 
-From Lesson 12 - Section 17 [5]
+For each controller gain is found by trail and error methods . Also parameter tuning practices is used from Lesson 12 - Section 17 [5] 
 
+``  
+   PD Math and Reparametrization 
+       
+       err_dot_dot + Kd * err_dot + Kp * err = 0
+       
+       Kd = 2 * damping_ratio * undamped_natural_freq
+       
+       Kp = (undamped_natural_freq)**2
+       
+```
+
+``  
+   Parameter Tuning Best Practices   
+       
+      * 1 - 0.7 < damping_ratioa < 1.0
+      
+      * 2 - choose a large undamped_natural_freq
+      
+          T = 1 / undamped_natural_freq
+          
+          Trise = 1.57 * T
+       
+```
 
 **Evaluation**
 
