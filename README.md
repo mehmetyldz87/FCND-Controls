@@ -62,6 +62,9 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
 The roll-pitch controller is a P controller responsible for commanding the roll and pitch rates ( p_c  and  q_c ) in the body frame. First, it sets the desired rate of change of the given matrix elements using a P controller.
 
   ![Photo_5](./image/Photo_5.png) [3]
+ 
+The rotation matrix elements  R13  (also referred to as  b_x ) and  R23  (also referred to as  b_y ).
+  ![Photo_7](./image/Photo_7.png) [3]
   
 ```py
     def roll_pitch_controller(self, acceleration_cmd, attitude, thrust_cmd):
@@ -183,9 +186,7 @@ A P controller is used to control the drone's yaw.
 
 * **5- Lateral Position Control ( lateral_position_control() )**
 
-The lateral controller is to generate commanded values for the rotation matrix elements  R13  (also referred to as  b_x ) and  R23  (also referred to as  b_y ).The drone generates lateral acceleration by changing the body orientation which results in non-zero thrust in the desired direction. A PD controller is used for the lateral controller. 
-
-![Photo_7](./image/Photo_7.png) [3]
+The drone generates lateral acceleration by changing the body orientation which results in non-zero thrust in the desired direction. A PD controller is used for the lateral controller. 
 
 ```py    
     def lateral_position_control(self, local_position_cmd, local_velocity_cmd, local_position, local_velocity,
