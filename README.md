@@ -59,7 +59,10 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
 ```
 * **2- Reduced Attitude Control ( roll_pitch_control() )**
 
+The roll-pitch controller is a P controller responsible for commanding the roll and pitch rates ( p_c  and  q_c ) in the body frame. First, it sets the desired rate of change of the given matrix elements using a P controller.
 
+  ![Photo_5](./image/Photo_5.png) [3]
+  
 ```py
     def roll_pitch_controller(self, acceleration_cmd, attitude, thrust_cmd):
         """ Generate the rollrate and pitchrate commands in the body frame
@@ -108,6 +111,11 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
         return np.array([p_c, q_c])
 ```    
 * **3- Altitude Control ( altitude_control() )** 
+
+![Photo_6](./image/Photo_6.png) [3]
+
+A PD controller is used for the altitude control
+
 ```py
     def altitude_control(self, altitude_cmd, vertical_velocity_cmd, altitude, vertical_velocity, attitude,  acceleration_ff=0.0):
         """Generate vertical acceleration (thrust) command
@@ -145,6 +153,9 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
 
 ```  
 * **4- Heading Control ( yaw_control() )**
+
+A P controller is used to control the drone's yaw.
+
 ```py    
     def yaw_control(self, yaw_cmd, yaw):
         """ Generate the target yawrate
@@ -171,6 +182,11 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
 ```
 
 * **5- Lateral Position Control ( lateral_position_control() )**
+
+The lateral controller is to generate commanded values for the rotation matrix elements  R13  (also referred to as  b_x ) and  R23  (also referred to as  b_y ).The drone generates lateral acceleration by changing the body orientation which results in non-zero thrust in the desired direction. A PD controller is used for the lateral controller. 
+
+![Photo_7](./image/Photo_7.png) [3]
+
 ```py    
     def lateral_position_control(self, local_position_cmd, local_velocity_cmd, local_position, local_velocity,
                                acceleration_ff = np.array([0.0, 0.0])):
@@ -199,6 +215,15 @@ The commanded roll, pitch, and yaw are collected by the body rate controller, an
 
         return acc_cmd
 ```
+**Evaluation**
+
+## CPP Part ##
+
+
+
+
+
+
 **References**
 * 1- https://github.com/udacity/FCND-Controls
 * 2- A. P. Schoellig, C. Wiltsche and R. D’Andrea, 2012, "Feed-Forward Parameter Identification for Precise Periodic
