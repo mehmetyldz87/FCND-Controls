@@ -219,6 +219,16 @@ The drone generates lateral acceleration by changing the body orientation which 
 ```
 **Evaluation**
 
+* Maximum Horizantol Error < 2 m
+* Maximum Vertical Error < 1 m
+* Mission Time < 20 s
+
+![Photo_8](./image/Photo_8.png) [3]
+
+Video
+[![Video](https://img.youtube.com/vi/8QoKp-xedlo/0.jpg)](https://www.youtube.com/watch?v=8QoKp-xedlo&feature=youtu.be)
+
+
 ## CPP Part ##
 
 
