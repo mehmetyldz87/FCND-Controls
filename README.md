@@ -226,7 +226,7 @@ Controller parameters is tuned from lowest level to highest level.Observing the 
 ```
 "Tuning a faster and smoother inner loop will make tuning the outer loop easier due to less decoupling of the modes." [4]
 
-For each controller gain is found by trail and error methods . Also parameter tuning practices is used from Lesson 12 - Section 17 [5] 
+For each controller gain is found by trail and error methods . Also parameter tuning practices are used from Lesson 12 - Section 17 [5] 
 
 
 ```  
