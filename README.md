@@ -23,7 +23,7 @@ The detailed block diagram of quadrotor controller is here. The theory behind th
  
  ![Photo_3](./image/Photo_3.png) [3]
  
- Each of the methods in `controller.py` is given below
+ Each of the methods in [`controller.py`](./python/controller.py) is given below
  
  Reduced Attitude Control Diagram
  
