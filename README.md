@@ -453,7 +453,10 @@ Performance Evaluation:
 
 Result: 
 
-![Photo_15](./image/Photo_15.png)
+![Photo_14](./image/Photo_14.png)
+
+
+**Senario 2 : Position Control **
 
 
 
