@@ -274,6 +274,8 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 ## CPP Part ##
 
+ Each of the methods in [`QuadControl.cpp`](./cpp/QuadControl.cpp) is given below
+ 
 **Senario 1 : Intro**
 
 In this senario , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
