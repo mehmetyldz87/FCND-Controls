@@ -634,6 +634,34 @@ Result:
 
 ![Photo_15](./image/Photo_15.png)
 
+**Senario 4 : Non-idealities and robustness**
+
+<p align="center">
+<img src="animations/scenario4.gif" width="500"/>
+</p>
+
+Performance Evaluation:
+
+* position error for all 3 quads should be less than 0.1 meters for at least 1.5 seconds
+
+Result: 
+
+![Photo_16](./image/Photo_16.png)
+
+**Senario 5 : Trajectory Follow**
+
+<p align="center">
+<img src="animations/scenario5.gif" width="500"/>
+</p>
+
+Performance Evaluation:
+
+* position error of the quad should be less than 0.25 meters for at least 3 seconds
+
+Result: 
+
+![Photo_17](./image/Photo_17.png)
+
 
 **References**
 * [1] https://github.com/udacity/FCND-Controls
