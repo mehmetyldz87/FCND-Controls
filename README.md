@@ -301,7 +301,13 @@ In this function , the individual motor thrust commands is set.The drone rotor p
 
 ![Photo_13](./image/Photo_13.png)
 
-t_y= F_{1} + F_{3} - F_{2} - F_{4} 
+The total thrust and the moments created by the propellers;
+
+F_total = F1 + F2 + F3 + F4
+tau_x= (F1 - F2 + F3 - F4) * l
+tau_y= (F1 + F2 - F3 - F4) * l
+tau_z= - ( F1 - F2 - F3 + F4 ) * kappa  // the z axis is inverted tso that moment on z was inverted here
+
 
 ```cpp    
 VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momentCmd)
@@ -327,7 +333,7 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
 
     float c_bar = collThrustCmd;  // F1 + F2 + F3 + F4
     float p_bar = momentCmd.x / l; // F1 - F2 + F3 - F4
-    float q_bar = momentCmd.y / l;  // F1 + F2 - F4 - F4
+    float q_bar = momentCmd.y / l;  // F1 + F2 - F3 - F4
     float r_bar = -momentCmd.z / kappa; // F1 - F2 - F3 + F4
     
     cmd.desiredThrustsN[0] = (c_bar + p_bar + q_bar + r_bar) / 4.f; // front left
@@ -349,8 +355,8 @@ With the proper  `kpPQR = 95, 95, 6` and `kpBank = 10` , your simulation should 
 
 Performance Evaluation:
 
-*roll should less than 0.025 radian of nominal for 0.75 seconds (3/4 of the duration of the loop)
-*roll rate should less than 2.5 radian/sec for 0.75 seconds
+* roll should less than 0.025 radian of nominal for 0.75 seconds (3/4 of the duration of the loop)
+* roll rate should less than 2.5 radian/sec for 0.75 seconds
 
 Result: 
 
