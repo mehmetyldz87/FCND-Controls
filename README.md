@@ -219,7 +219,7 @@ The drone generates lateral acceleration by changing the body orientation which 
 ```
 **Parameter Tuning**
 
-Controller parameters is tuned from lowest level to highest level.Observing the affect of each controller saperatly, `test_trajectory.txt` is changed to controller attempt to hold at a fixed point just about the origin for each . Beacuse it is hard to see the effects of controllers with `test_trajectory.txt` in tunining process. 
+Controller parameters is tuned from lowest level to highest level.Observing the affect of each controller saperatly, [`test_trajectory.txt`](./python/test_trajectory.txt) is changed to controller attempt to hold at a fixed point just about the origin for each . Beacuse it is hard to see the effects of controllers with [`test_trajectory.txt`](./python/test_trajectory.txt) in tunining process. 
 
 ```py    
         self.local_position_target = np.array([0.0, 0.0, -3.0]) # Test Purpose
@@ -259,7 +259,7 @@ For each controller gain is found by trail and error methods . Also parameter tu
 * Maximum Vertical Error < 1 m
 * Mission Time < 20 s
 
-The telemetry log of a successful trajectory following flight is here [(TLog.txt)](.python/TLog.txt)
+The telemetry log of a successful trajectory following flight is here [(TLog.txt)](./python/TLog.txt)
 
 ![Photo_8](./image/Photo_8.png)
 
