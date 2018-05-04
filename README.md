@@ -259,7 +259,7 @@ For each controller gain is found by trail and error methods . Also parameter tu
 * Maximum Vertical Error < 1 m
 * Mission Time < 20 s
 
-The telemetry log of a successful trajectory following flight is here [(TLog.txt)](./TLog.txt)
+The telemetry log of a successful trajectory following flight is here [(TLog.txt)](.python/TLog.txt)
 
 ![Photo_8](./image/Photo_8.png)
 
@@ -274,7 +274,15 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 ## CPP Part ##
 
+**Senario 1 : Intro**
 
+In this part , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
+
+With the proper mass `mass = 0.5` , your simulation should look a little like this:
+
+<p align="center">
+<img src="animations/scenario1.gif" width="500"/>
+</p>
 
 
 
