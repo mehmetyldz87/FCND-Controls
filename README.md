@@ -381,7 +381,7 @@ V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
   return momentCmd;
 }
 ```
-2- `RollPitchControl()`
+3- `RollPitchControl()`
 
 The roll-pitch controller is a P controller responsible for commanding the roll and pitch rates ( pqrCmd.x  and  pqrCmd.y) in the body frame. 
 
@@ -456,7 +456,7 @@ Result:
 ![Photo_14](./image/Photo_14.png)
 
 
-**Senario 2 : Position Control **
+**Senario 3 : Position Control **
 
 
 
