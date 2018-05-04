@@ -276,14 +276,85 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 **Senario 1 : Intro**
 
-In this part , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
+In this senario , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
 
-With the proper mass `mass = 0.5` , your simulation should look a little like this:
+With the proper `mass = 0.5` , your simulation should look a little like this:
 
 <p align="center">
 <img src="animations/scenario1.gif" width="500"/>
 </p>
 
+Performance Evaluation:
+
+Result: 
+
+![Photo_12](./image/Photo_12.png)
+
+
+**Senario 2 : Attitude Control **
+
+In this senario , quadrotor is created with a small initial rotation speed about its roll axis. The body rate and roll / pitch control is implemented to stabilize the rotational motion and bring the quad back to level attitude. 
+
+ 1- `GenerateMotorCommands()`
+ 
+In this function , the individual motor thrust commands is set.The drone rotor positions are swapped in this project versus the 3D lesson [3] The rotor positions are given below
+
+![Photo_13](./image/Photo_13.png)
+
+t_y= F_{1} + F_{3} - F_{2} - F_{4} 
+
+```cpp    
+VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momentCmd)
+{
+  // Convert a desired 3-axis moment and collective thrust command to 
+  //   individual motor thrust commands
+  // INPUTS: 
+  //   desCollectiveThrust: desired collective thrust [N]
+  //   desMoment: desired rotation moment about each axis [N m]
+  // OUTPUT:
+  //   set class member variable cmd (class variable for graphing) where
+  //   cmd.desiredThrustsN[0..3]: motor commands, in [N]
+
+  // HINTS: 
+  // - you can access parts of desMoment via e.g. desMoment.x
+  // You'll need the arm length parameter L, and the drag/thrust ratio kappa
+
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+  float l = L / sqrt(2.f); // Lesson 11 - Section 20
+
+  // The drone rotor positions are swapped in project versus the 3D lesson!
+
+    float c_bar = collThrustCmd;  // F1 + F2 + F3 + F4
+    float p_bar = momentCmd.x / l; // F1 - F2 + F3 - F4
+    float q_bar = momentCmd.y / l;  // F1 + F2 - F4 - F4
+    float r_bar = -momentCmd.z / kappa; // F1 - F2 - F3 + F4
+    
+    cmd.desiredThrustsN[0] = (c_bar + p_bar + q_bar + r_bar) / 4.f; // front left
+    cmd.desiredThrustsN[1] = (c_bar - p_bar + q_bar - r_bar) / 4.f; // front right
+    cmd.desiredThrustsN[2] = (c_bar + p_bar - q_bar - r_bar) / 4.f; // rear left
+    cmd.desiredThrustsN[3] = (c_bar - p_bar - q_bar + r_bar) / 4.f; // rear right
+
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+
+  return cmd;
+}
+```
+
+With the proper  `kpPQR = 95, 95, 6` and `kpBank = 10` , your simulation should look a little like this:
+
+<p align="center">
+<img src="animations/scenario2.gif" width="500"/>
+</p>
+
+Performance Evaluation:
+
+*roll should less than 0.025 radian of nominal for 0.75 seconds (3/4 of the duration of the loop)
+*roll rate should less than 2.5 radian/sec for 0.75 seconds
+
+Result: 
+
+![Photo_15](./image/Photo_15.png)
 
 
 
