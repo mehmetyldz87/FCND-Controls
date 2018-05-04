@@ -278,7 +278,7 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 In this senario , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
 
-With the proper `mass = 0.5` . Simulation should look a little like this:
+With the proper `mass = 0.5`.
 
 <p align="center">
 <img src="animations/scenario1.gif" width="500"/>
@@ -440,7 +440,7 @@ V3F QuadControl::RollPitchControl(V3F accelCmd, Quaternion<float> attitude, floa
   return pqrCmd;
 }
 ```
-With the proper gains `kpPQR = 95, 95, 6` and `kpBank = 10` . Simulation should look a little like this:
+With the proper gains `kpPQR = 95, 95, 6` and `kpBank = 10`.
 
 <p align="center">
 <img src="animations/scenario2.gif" width="500"/>
@@ -578,7 +578,7 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
 
 A P controller is used to control the drone's yaw. This controller returns desired yaw rate.
 
-The same method is used in python section `4- Heading Control ( yaw_control() )`.
+The same method is used in python part `4- Heading Control ( yaw_control() )`.
 
 ```cpp    
 // returns desired yaw rate
@@ -619,7 +619,7 @@ float QuadControl::YawControl(float yawCmd, float yaw)
 
 }
 ```
-With the proper gains `kpPosXY = 30 ` & `kpVelXY = 13 ` for lateral contoller , `kpPosZ = 20 ` & `kpVelZ = 9` for altitude controller and `kpYaw = 2 ` for yaw controller.Simulation should look a little like this:
+With the proper gains `kpPosXY = 30 ` & `kpVelXY = 13 ` for lateral contoller , `kpPosZ = 20 ` & `kpVelZ = 9` for altitude controller and `kpYaw = 2 ` for yaw controller.
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
