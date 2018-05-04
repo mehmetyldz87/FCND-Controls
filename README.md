@@ -291,7 +291,7 @@ Result:
 ![Photo_12](./image/Photo_12.png)
 
 
-**Senario 2 : Attitude Control **
+**Senario 2 : Attitude Control**
 
 In this senario , quadrotor is created with a small initial rotation speed about its roll axis. The body rate and roll / pitch control is implemented to stabilize the rotational motion and bring the quad back to level attitude. 
 
@@ -456,7 +456,7 @@ Result:
 ![Photo_14](./image/Photo_14.png)
 
 
-**Senario 3 : Position Control **
+**Senario 3 : Position Control**
 
 
 
