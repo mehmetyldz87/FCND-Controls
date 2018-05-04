@@ -20,17 +20,17 @@ class NonlinearController(object):
     def __init__(self,
 
         #lateral_position_control gains
-        Kp_lateral_pos=8, #6 , #12.0
-        Kd_lateral_pos=4, #4 , #8.0
+        Kp_lateral_pos=6, #8 , #12.0
+        Kd_lateral_pos=4, #5 , #8.0
 
         #altitude_control gains
         Kp_alt=4.0, #4.0 , #3.5
-        Kd_alt=2.0, #1.5 , #2.0
+        Kd_alt=1.5, #2.5 , #2.0
         
         #roll_pitch_controller gains
         Kp_roll=8,  #8 , #6.5
         Kp_pitch=8, #8 , #6.5
-        Kp_yaw=4.5, #4 , # 4
+        Kp_yaw=4.5, #6 , # 4
 
         #body_rate_control gains
         Kp_p=20, #20 , #10
