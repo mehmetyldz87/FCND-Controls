@@ -29,7 +29,7 @@ The detailed block diagram of quadrotor controller is here. The theory behind th
  
   ![Photo_4](./image/Photo_4.png) [3]
 
-* **1- Body Rate Control ( body_rate_control() )**
+* ##**1- Body Rate Control ( body_rate_control() )**
 
 The commanded roll, pitch, and yaw are collected by the body rate controller, and they are translated into the desired moment along the axis in the body frame. This control method use only P controller.
 
