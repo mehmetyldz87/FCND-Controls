@@ -303,10 +303,10 @@ In this function , the individual motor thrust commands is set.The drone rotor p
 
 The total thrust and the moments created by the propellers;
 
-F_total = F1 + F2 + F3 + F4
-tau_x= (F1 - F2 + F3 - F4) * l
-tau_y= (F1 + F2 - F3 - F4) * l
-tau_z= - ( F1 - F2 - F3 + F4 ) * kappa  // the z axis is inverted tso that moment on z was inverted here
+* F_total = F1 + F2 + F3 + F4
+* tau_x= (F1 - F2 + F3 - F4) * l
+* tau_y= (F1 + F2 - F3 - F4) * l
+* tau_z= - ( F1 - F2 - F3 + F4 ) * kappa  // the z axis is inverted tso that moment on z was inverted here
 
 
 ```cpp    
@@ -346,7 +346,100 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
   return cmd;
 }
 ```
+2- `BodyRateControl()`
 
+The commanded roll, pitch, and yaw are collected by the body rate controller, and they are translated into the desired moment along the axis in the body frame. This control method use only P controller.
+
+The same method is used in python section `1- Body Rate Control ( body_rate_control() )`
+
+```cpp    
+V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
+{
+  // Calculate a desired 3-axis moment given a desired and current body rate
+  // INPUTS: 
+  //   pqrCmd: desired body rates [rad/s]
+  //   pqr: current or estimated body rates [rad/s]
+  // OUTPUT:
+  //   return a V3F containing the desired moments for each of the 3 axes
+
+  // HINTS: 
+  //  - you can use V3Fs just like scalars: V3F a(1,1,1), b(2,3,4), c; c=a-b;
+  //  - you'll need parameters for moments of inertia Ixx, Iyy, Izz
+  //  - you'll also need the gain parameter kpPQR (it's a V3F)
+
+  V3F momentCmd;
+
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+  V3F MOI = V3F(Ixx, Iyy, Izz);
+  V3F pqr_err = pqrCmd - pqr ;
+  V3F m_c = kpPQR * pqr_err ;
+
+  momentCmd = MOI * m_c ;
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+
+  return momentCmd;
+}
+```
+2- `RollPitchControl()`
+
+The roll-pitch controller is a P controller responsible for commanding the roll and pitch rates ( pqrCmd.x  and  pqrCmd.y) in the body frame. 
+
+The same method is used in python section `2- Reduced Attitude Control ( roll_pitch_control() )`
+
+```cpp    
+// returns a desired roll and pitch rate 
+V3F QuadControl::RollPitchControl(V3F accelCmd, Quaternion<float> attitude, float collThrustCmd)
+{
+  // Calculate a desired pitch and roll angle rates based on a desired global
+  //   lateral acceleration, the current attitude of the quad, and desired
+  //   collective thrust command
+  // INPUTS: 
+  //   accelCmd: desired acceleration in global XY coordinates [m/s2]
+  //   attitude: current or estimated attitude of the vehicle
+  //   collThrustCmd: desired collective thrust of the quad [N]
+  // OUTPUT:
+  //   return a V3F containing the desired pitch and roll rates. The Z
+  //     element of the V3F should be left at its default value (0)
+
+  // HINTS: 
+  //  - we already provide rotation matrix R: to get element R[1,2] (python) use R(1,2) (C++)
+  //  - you'll need the roll/pitch gain kpBank
+  //  - collThrustCmd is a force in Newtons! You'll likely want to convert it to acceleration first
+
+  V3F pqrCmd;
+  Mat3x3F R = attitude.RotationMatrix_IwrtB();
+
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+    if ( collThrustCmd > 0 ) {
+
+      float c = - collThrustCmd / mass;
+       
+      // Find R13 (Target_X) and R23 (Target_Y)
+      float b_x_c_target = CONSTRAIN(accelCmd.x / c, -maxTiltAngle, maxTiltAngle);
+      float b_y_c_target = CONSTRAIN(accelCmd.y / c, -maxTiltAngle, maxTiltAngle);
+
+      float b_x = R(0,2); // R13 ( Actual X )
+      float b_x_err = b_x_c_target - b_x;
+      float b_x_p_term = kpBank * b_x_err;
+    
+      float b_y = R(1,2); // R23 ( Actual Y )
+      float b_y_err = b_y_c_target - b_y;
+      float b_y_p_term = kpBank * b_y_err;
+    
+      pqrCmd.x = (R(1,0) * b_x_p_term - R(0,0) * b_y_p_term) / R(2,2);
+      pqrCmd.y = (R(1,1) * b_x_p_term - R(0,1) * b_y_p_term) / R(2,2);
+    } else {
+      pqrCmd.x = 0.0;
+      pqrCmd.y = 0.0;
+    }
+
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+
+  return pqrCmd;
+}
+```
 With the proper  `kpPQR = 95, 95, 6` and `kpBank = 10` , your simulation should look a little like this:
 
 <p align="center">
