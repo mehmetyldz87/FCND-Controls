@@ -278,7 +278,7 @@ The telemetry log of a successful trajectory following flight is here [(TLog.txt
 
 In this senario , the mass of quadrotor is adjusted to make the quad more or less stay in the same spot.
 
-With the proper `mass = 0.5` , your simulation should look a little like this:
+With the proper `mass = 0.5` . Simulation should look a little like this:
 
 <p align="center">
 <img src="animations/scenario1.gif" width="500"/>
@@ -440,7 +440,7 @@ V3F QuadControl::RollPitchControl(V3F accelCmd, Quaternion<float> attitude, floa
   return pqrCmd;
 }
 ```
-With the proper  `kpPQR = 95, 95, 6` and `kpBank = 10` , your simulation should look a little like this:
+With the proper gains `kpPQR = 95, 95, 6` and `kpBank = 10` . Simulation should look a little like this:
 
 <p align="center">
 <img src="animations/scenario2.gif" width="500"/>
@@ -458,6 +458,181 @@ Result:
 
 **Senario 3 : Position Control**
 
+In this senario , the position, altitude and yaw control are implemted to quadrotor.  
+
+1-`LateralPositionControl()`
+
+The drone generates lateral acceleration by changing the body orientation which results in non-zero thrust in the desired direction. A PD controller is used for the lateral controller.
+
+The same method is used in python section `5- Lateral Position Control ( lateral_position_control() ) )`. But XY speed and acceleration are limited. 
+
+```cpp    
+// returns a desired acceleration in global frame
+V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel, V3F accelCmdFF)
+{
+  // Calculate a desired horizontal acceleration based on 
+  //  desired lateral position/velocity/acceleration and current pose
+  // INPUTS: 
+  //   posCmd: desired position, in NED [m]
+  //   velCmd: desired velocity, in NED [m/s]
+  //   pos: current position, NED [m]
+  //   vel: current velocity, NED [m/s]
+  //   accelCmdFF: feed-forward acceleration, NED [m/s2]
+  // OUTPUT:
+  //   return a V3F with desired horizontal accelerations. 
+  //     the Z component should be 0
+  // HINTS: 
+  //  - use the gain parameters kpPosXY and kpVelXY
+  //  - make sure you limit the maximum horizontal velocity and acceleration
+  //    to maxSpeedXY and maxAccelXY
+
+  // make sure we don't have any incoming z-component
+  accelCmdFF.z = 0;
+  velCmd.z = 0;
+  posCmd.z = pos.z;
+
+  // we initialize the returned desired acceleration to the feed-forward value.
+  // Make sure to _add_, not simply replace, the result of your controller
+  // to this variable
+  V3F accelCmd = accelCmdFF;
+
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+   V3F pos_err = posCmd - pos ;
+
+   if (velCmd.mag() > maxSpeedXY) {
+      velCmd = velCmd.norm() * maxSpeedXY;
+    }
+   
+  V3F vel_err = velCmd - vel ;
+
+  accelCmd = kpPosXY * pos_err + kpVelXY * vel_err + accelCmd ;
+
+    if (accelCmd.mag() > maxAccelXY) {
+      accelCmd = accelCmd.norm() * maxAccelXY;
+    }
+
+   accelCmd.z = 0;  
+
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+
+  return accelCmd;
+}
+```
+
+2-`AltitudeControl()`
+
+A PID controller is used for the altitude control [6] Unlike the Python part, the integral term is added and acceleration is limited. 
+
+```cpp    
+float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, float velZ, Quaternion<float> attitude, float accelZCmd, float dt)
+{
+  // Calculate desired quad thrust based on altitude setpoint, actual altitude,
+  //   vertical velocity setpoint, actual vertical velocity, and a vertical 
+  //   acceleration feed-forward command
+  // INPUTS: 
+  //   posZCmd, velZCmd: desired vertical position and velocity in NED [m]
+  //   posZ, velZ: current vertical position and velocity in NED [m]
+  //   accelZCmd: feed-forward vertical acceleration in NED [m/s2]
+  //   dt: the time step of the measurements [seconds]
+  // OUTPUT:
+  //   return a collective thrust command in [N]
+
+  // HINTS: 
+  //  - we already provide rotation matrix R: to get element R[1,2] (python) use R(1,2) (C++)
+  //  - you'll need the gain parameters kpPosZ and kpVelZ
+  //  - maxAscentRate and maxDescentRate are maximum vertical speeds. Note they're both >=0!
+  //  - make sure to return a force, not an acceleration
+  //  - remember that for an upright quad in NED, thrust should be HIGHER if the desired Z acceleration is LOWER
+
+  Mat3x3F R = attitude.RotationMatrix_IwrtB();
+  float thrust = 0;
+
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+  float alt_err = posZCmd - posZ;
+  float alt_err_dot = velZCmd - velZ;
+  integratedAltitudeError += alt_err * dt;
+  
+  float p_term = kpPosZ * alt_err;
+  float i_term = KiPosZ * integratedAltitudeError;
+  float d_term = kpVelZ * alt_err_dot;
+  
+  float b_z = R(2,2);
+
+  float u_1_bar = p_term + i_term + d_term + accelZCmd;
+
+  float acc = ( u_1_bar - CONST_GRAVITY ) / b_z;
+
+  acc = CONSTRAIN(acc, - maxAscentRate / dt, maxDescentRate / dt);
+
+  thrust = - mass * acc ;
+
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+  
+  return thrust;
+}
+```
+
+3-`YawControl()`
+
+A P controller is used to control the drone's yaw. This controller returns desired yaw rate.
+
+The same method is used in python section `4- Heading Control ( yaw_control() )`.
+
+```cpp    
+// returns desired yaw rate
+float QuadControl::YawControl(float yawCmd, float yaw)
+{
+  // Calculate a desired yaw rate to control yaw to yawCmd
+  // INPUTS: 
+  //   yawCmd: commanded yaw [rad]
+  //   yaw: current yaw [rad]
+  // OUTPUT:
+  //   return a desired yaw rate [rad/s]
+  // HINTS: 
+  //  - use fmodf(foo,b) to unwrap a radian angle measure float foo to range [0,b]. 
+  //  - use the yaw control gain parameter kpYaw
+
+  float yawRateCmd=0;
+  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+
+    if (yawCmd > 0) {
+      yawCmd = fmodf(yawCmd, 2.f * F_PI);
+    } else {
+      yawCmd = fmodf(yawCmd, -2.f * F_PI);
+    }
+
+   float yaw_err = yawCmd - yaw ;
+   
+    if ( yaw_err > F_PI ) {
+      yaw_err = yaw_err - 2.f * F_PI;
+    } 
+    if ( yaw_err < -F_PI ) {
+      yaw_err = yaw_err + 2.f * F_PI;
+    }
+
+    yawRateCmd = kpYaw * yaw_err;
+  /////////////////////////////// END STUDENT CODE ////////////////////////////
+
+  return yawRateCmd;
+
+}
+```
+With the proper gains `kpPosXY = 30 ` & `kpVelXY = 13 ` for lateral contoller , `kpPosZ = 20 ` & `kpVelZ = 9` for altitude controller and `kpYaw = 2 ` for yaw controller.Simulation should look a little like this:
+
+<p align="center">
+<img src="animations/scenario3.gif" width="500"/>
+</p>
+
+Performance Evaluation:
+
+* X position of both drones should be within 0.1 meters of the target for at least 1.25 seconds
+* Quad2 yaw should be within 0.1 of the target for at least 1 second
+
+Result: 
+
+![Photo_15](./image/Photo_15.png)
 
 
 **References**
@@ -467,3 +642,4 @@ Result:
 * [3] FCND Lesson 4 - 3D Drone-Full-Notebook ( [3D Controller Part](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/2263120a-a3c4-4b5a-9a96-ac3e1dbae179/concepts/47b0380b-3d5a-426b-8409-45f947c8f343#) ) 
 * [4] [Python Tips & Tricks](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/81acb1ca-af00-4553-b8bb-b1467fbcfc51/concepts/74671657-bda5-4aff-a635-1fde48b15b33)
 * [5] [FCND Lesson 12 - Section 17](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/dd98d695-14f1-40e0-adc5-e9fafe556f73/concepts/541ec6ae-f171-4195-9c05-97a5c82a85df)
+* [6] [FCND Lesson 12 - Section 20](https://classroom.udacity.com/nanodegrees/nd787/parts/5aa0a956-4418-4a41-846f-cb7ea63349b3/modules/b78ec22c-5afe-444b-8719-b390bd2b2988/lessons/dd98d695-14f1-40e0-adc5-e9fafe556f73/concepts/376cb237-8c63-4be5-b5e2-ee628dab64cd#)
