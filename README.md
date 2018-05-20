@@ -2,6 +2,9 @@
 3rd Project - Control of a 3D Quadrotor
 
 
+[Detailed Project Explantion Page](https://github.com/udacity/FCND-Controls)
+
+
 ## Ptyhon Part ##
 
 ![Photo_1](./image/Photo_1.png) 
